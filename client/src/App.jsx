@@ -1,13 +1,14 @@
 import { Button } from "@mantine/core";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Room from "./pages/Room";
 
 const App = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline text-yellow-700">
-        Hello world!
-      </h1>
-      <Button>Settings</Button>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/room/:roomID" element={<Room />} />
+    </Routes>
   );
 
 }
