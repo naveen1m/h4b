@@ -52,19 +52,19 @@ import {
             Welcome back to Mantine!
           </Title> */}
   
-          <TextInput mt="50%"  label="Email address" placeholder="hello@gmail.com" size="md" />
-          <PasswordInput label="Password" placeholder="Your password" mt="md" size="md" />
+          <TextInput mt="50%"  label="Phone Number" placeholder="+91834567899" size="md" />
+          <TextInput label="OTP" placeholder="Sent OTP" mt="md" size="md" />
           {/* <Checkbox label="Keep me logged in" mt="xl" size="md" /> */}
           <Button fullWidth mt="xl" size="md">
-            Login
+            Register
           </Button>
   
-          <Text ta="center" mt="md">
+          {/* <Text ta="center" mt="md">
             Don&apos;t have an account?{' '}
             <Anchor href="#" weight={700} onClick={(event) => event.preventDefault()}>
               Register
             </Anchor>
-          </Text>
+          </Text> */}
         </Paper>
       </div>
     );
