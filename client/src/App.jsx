@@ -3,14 +3,17 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Room from "./pages/Room";
 import Hero from "./pages/Hero";
-import PatientForm from "./pages/PatientForm";
+import Login from "./pages/Login";
+
 
 const App = () => {
+
+
   return (
     <Routes>
       <Route path="/" element={<Hero />} />
       <Route path="/room/:roomID" element={<Room />} />
-      <Route path="/register" element={<PatientForm />} />
+      <Route path="/register" element={<PateintForm />} />
     </Routes>
   );
 
