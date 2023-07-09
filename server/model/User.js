@@ -1,9 +1,8 @@
 const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema({
-    email: String,
-
-    medicalHistory: [{ type: Schema.ObjectId.ObjectId, ref: 'Prescription', default: {} }]
+    email: { type: String, unique: true },
+    medicalHistory: [{ type: Schema.Types.ObjectId, ref: 'Prescription', default: {} }]
 }, { collection: 'user', timestamps: true });
 
-module.exports = new model('User', UserSchema, 'user');
+module.exports = model('User', UserSchema, 'user');

@@ -1,9 +1,10 @@
 const { Schema, model } = require('mongoose');
+
 const MeetingSchema = new Schema({
     email: String,
-    token: Number
+    token: Number,
+    otp: Number,
 
+}, { collection: 'otp', timestamps: true, expireAfterSeconds: 300 });
 
-}, { collection: 'otp', timestamps: true });
-
-module.exports = new model('Meeting', MeetingSchema, 'meeting');
+module.exports = model('OTP', MeetingSchema, 'otp');

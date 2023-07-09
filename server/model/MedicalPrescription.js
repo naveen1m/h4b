@@ -10,4 +10,4 @@ const PrescriptionSchema = new Schema({
 
 }, { collection: 'prescription', timestamps: true });
 
-module.exports = new model('Prescription', PrescriptionSchema, 'prescription');
+module.exports = model('Prescription', PrescriptionSchema, 'prescription');

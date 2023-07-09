@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Room from "./pages/Room";
 import Hero from "./pages/Hero";
 import PatientForm from "./pages/PatientForm";
-import { Register } from "./pages/Register";
+import Register from "./pages/Register";
 
 const App = () => {
 

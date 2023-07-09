@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+
 const MeetingSchema = new Schema({
     doctor: { type: Schema.Types.ObjectId, ref: 'Doctor' },
     email: String,
@@ -16,4 +17,4 @@ const MeetingSchema = new Schema({
 
 }, { collection: 'meeting', timestamps: true });
 
-module.exports = new model('Meeting', MeetingSchema, 'meeting');
+module.exports = model('Meeting', MeetingSchema, 'meeting');
