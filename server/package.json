@@ -1,0 +1,27 @@
+{
+  "name": "h4b",
+  "version": "1.0.0",
+  "description": "ReadMe",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stupiddint/h4b.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stupiddint/h4b/issues"
+  },
+  "homepage": "https://github.com/stupiddint/h4b#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
