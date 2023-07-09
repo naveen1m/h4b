@@ -8,13 +8,9 @@ const Room = () => {
   const { name, email } = useLocation().state;
   const { roomID } = useParams();
 
-  console.log(useLocation());
-  console.log(name);
-  console.log(roomID);
-
   const meeting = async (elem) => {
-    const appID = 336433262;
-    const serverSecret = "45f692d059e888cc1f612e4b083fe849"
+    const appID = +import.meta.env.VITE_ZEGOCLOUD_APP_ID;
+    const serverSecret = import.meta.env.VITE_ZEGOCLOUD_SERVER_SECRET;
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, Date.now().toString(), name);
     const zc = ZegoUIKitPrebuilt.create(kitToken);
 

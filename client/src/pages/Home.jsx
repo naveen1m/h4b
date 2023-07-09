@@ -7,7 +7,7 @@ import InfoForm from "./../components/InfoForm";
 const Home = () => {
 
   return (
-    <section>
+    <section className='w-screen h-100 flex justify-center items-center'>
       <InfoForm />
     </section>
   )

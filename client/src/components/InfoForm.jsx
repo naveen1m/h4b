@@ -1,15 +1,17 @@
-import { upperFirst } from '@mantine/hooks';
-import { useForm } from '@mantine/form';
 import {
   TextInput,
-  Text,
+  PasswordInput,
+  Checkbox,
+  Anchor,
   Paper,
+  Title,
+  Text,
+  Container,
   Group,
   Button,
-  Anchor,
-  Stack,
 } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from '@mantine/form';
 
 const InfoForm = () => {
 
@@ -29,69 +31,40 @@ const InfoForm = () => {
   });
 
   return (
-    <Paper radius="md" p="xl" withBorder>
-      <Text size="lg" weight={500}>
-        Welcome to TeleMed
-      </Text>
-
-      <form onSubmit={form.onSubmit(() => {
-        navigate(`/room/${form.values.roomID}`, {
-          state: {
+    <Paper size={600} my={20} className='w-1/2 h-full p-20 bg-green-800'>
+      <Title
+        align="center"
+        sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}
+      >
+        Welcome back!
+      </Title>
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <form onSubmit={() => {
+          console.log({
             name: form.values.name,
             email: form.values.email,
-          }
-        });
-      })}>
-        <Stack>
-
-          <TextInput
-            label="Name"
-            placeholder="Your name"
-            value={form.values.name}
+          })
+          navigate(`/room/${form.values.roomID}`, {
+            state: {
+              name: form.values.name,
+              email: form.values.email,
+            }
+          });
+        }}>
+          <TextInput label="Name" placeholder="John Doe" required value={form.values.name}
             onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
-            radius="md"
           />
-
-
-          <TextInput
-            required
-            label="Email"
-            placeholder="hello@mantine.dev"
-            value={form.values.email}
+          <TextInput label="Email" placeholder="you@mantine.dev" required value={form.values.email}
             onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-            error={form.errors.email && 'Invalid email'}
-            radius="md"
           />
-
-          <TextInput
-            required
-            label="RoomID"
-            placeholder="keeutr"
-            min={6}
-            max={6}
-            value={form.values.roomID}
+          <TextInput label="Room ID" placeholder="utterk" required minLength={6} maxLength={6} value={form.values.roomID}
             onChange={(event) => form.setFieldValue('roomID', event.currentTarget.value)}
-            error={form.errors.email && 'Length Invalid'}
-            radius="md"
           />
-
-        </Stack>
-
-        <Group position="apart" mt="xl">
-          <Anchor
-            component="button"
-            type="button"
-            color="dimmed"
-            onClick={() => toggle()}
-            size="xs"
-          >
-            Submit
-          </Anchor>
-          <Button type="submit" radius="xl">
-            Submit
+          <Button fullWidth mt="xl" type='submit'>
+            Connect With Doctor
           </Button>
-        </Group>
-      </form>
+        </form>
+      </Paper>
     </Paper>
   );
 }
