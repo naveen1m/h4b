@@ -1,11 +1,9 @@
 const { Schema, model } = require('mongoose');
-const MedicalPrescription = require('./MedicalPrescription');
 
 const UserSchema = new Schema({
-    username: String,
-    password: String,
+    email: String,
 
-    medicalHistory: [{ type: MedicalPrescription }]
+    medicalHistory: [{ type: Schema.ObjectId.ObjectId, ref: 'Prescription', default: {} }]
 }, { collection: 'user', timestamps: true });
 
 module.exports = new model('User', UserSchema, 'user');

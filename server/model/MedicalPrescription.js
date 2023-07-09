@@ -1,10 +1,13 @@
 const { Schema, model } = require('mongoose');
 
 const PrescriptionSchema = new Schema({
-    username: String,
+    email: String,
     disease: String,
 
-    medicines: [{ type: String }],
-}, { collection: 'user', timestamps: true });
+    doctor: { type: Schema.Types.ObjectId, ref: 'Doctor' },
 
-module.exports = new model('User', PrescriptionSchema, 'user');
+    medicines: [{ type: String }],
+
+}, { collection: 'prescription', timestamps: true });
+
+module.exports = new model('Prescription', PrescriptionSchema, 'prescription');
