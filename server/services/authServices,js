@@ -1,4 +1,0 @@
-const User = require('../model/User');
-
-// col-User
-const createUser = async(email)

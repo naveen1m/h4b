@@ -1,24 +1,32 @@
 const response = require('../utils/response');
-const createToken = require('../utils/createToken');
+
+const authServices = require('../services/authServices')
 
 const router = require('express').Router();
 
-router.post('/otpSend', (req, res) => {
-    const { phone } = req.body;
+router.post('/otpSend', async (req, res) => {
+    const { email } = req.body;
 
-    let token = createToken();
-    // TODO: send otp
-    // TODO: Add token to db
+    try {
+        const token = await authServices.sendOTP(email);
 
-    res.json(response(true, { token: token }));
+        return res.json(response(true, { token: token }));
+    }
+    catch (err) {
+        return res.json(response(false, err));
+    }
 });
 
 router.post('/verify', (req, res) => {
     const { token, otp } = req.body;
 
-    // TODO: verified
+    try {
+        let email = authServices.verifyOTP(token, otp);
 
-    res.json(response(true));
+        return res.json(response(true, { email }));
+    } catch (error) {
+        return res.json(response(false, error))
+    }
 });
 
 router.post('/registration', (req, res) => {

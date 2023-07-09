@@ -3,7 +3,8 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 async function connect() {
     const mongodb = await MongoMemoryServer.create();
-    const getUri = mongodb.getUri();
+    // const getUri = mongodb.getUri();
+    const getUri = 'mongodb://localhost:27017';
 
     console.log(getUri);
 

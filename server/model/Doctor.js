@@ -1,10 +1,9 @@
 const { Schema, model } = require('mongoose');
 
-const UserSchema = new Schema({
-    username: String,
-    password: String,
+const DoctorSchema = new Schema({
+    email: { type: String, unique: true },
 
     queue: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }]
 }, { collection: 'doctor', timestamps: true });
 
-module.exports = new model('Doctor', UserSchema, 'doctor');
+module.exports = model('Doctor', DoctorSchema, 'doctor');
