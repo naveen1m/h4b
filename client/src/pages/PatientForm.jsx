@@ -10,12 +10,11 @@ import {
   SimpleGrid,
   Modal,
   Text,
-  Textarea,
-  FileInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const PatientForm = () => {
   const navigate = useNavigate();
@@ -26,11 +25,11 @@ const PatientForm = () => {
       gender: '',
       email: '',
       state: '',
+      district: '',
       city: '',
       address: '',
       pin: '',
-      problem: '',
-      file: "",
+      problem: ''
     },
 
     validate: {
@@ -43,19 +42,21 @@ const PatientForm = () => {
           ? null
           : 'You must be 10-80 years old to register',
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      gender: (value) =>
+      Gender: (value) =>
         value === 'male' || value === 'female' || value === 'others'
           ? null
           : 'Enter a Gender',
     },
   });
 
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <Paper
       mx='auto'
       shadow='lg'
       p='lg'
-      bg={'lightblue'}
+      bg={'whitesmoke'}
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -65,8 +66,8 @@ const PatientForm = () => {
         height: '100vh',
       }}
     >
-      <Title order={1} my="10">
-        Patient Registration and Token Generation
+      <Title order={1} my="5%">
+        Patient Registeration and Token Generation
       </Title>
       <form
         onSubmit={async (e) => {
@@ -74,59 +75,75 @@ const PatientForm = () => {
           const {
             name,
             age,
-            gender,
+            Gender,
             email,
             state,
+            district,
             city,
             address,
             pin,
             problem,
-          } = form.values;
 
+          } = form.values;
           const requestDataBody = {
             name: name,
-            age: age,
-            gender: gender,
+            Age: Number(age),
+            Gender: Gender,
             email: email,
             state: state,
+            district: district,
             city: city,
             address: address,
             pin: pin,
             problem: problem,
-            "district": "IN",
+
           };
-          console.log(requestDataBody);
+          // console.log(requestDataBody)
+
+          // try {
+          //   const URL = 'someURL.com/getData';
+          //   const res = await fetch(URL, {
+          //     method: 'POST',
+          //     body: JSON.stringify(requestDataBody),
+          //   });
+          //   if (!res.ok) {
+          //     return new Error('Error in posting data');
+          //   }
+          //   const resData = await res.json();
+          //   console.log(resData);
+          // } catch (e) {
+          //   console.log(e);
+          // }
+          const url = 'http://127.0.0.1:8000/hai_prediction'
           try {
-            const URL = 'http://localhost:3000/auth/registration';
-            const res = await fetch(URL, {
-              method: 'POST',
-              body: JSON.stringify(requestDataBody),
+            axios.post(url, requestDataBody, { mode: 'no-cors' }, {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then((response) => {
+              console.log(response.data);
             });
-            if (!res.ok) {
-              return new Error('Error in posting data');
-            }
-            const resData = await res.json();
-            console.log(resData);
           } catch (e) {
             console.log(e);
           }
+
         }}
         style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           flexDirection: 'column',
-          padding: 20,
+          // backgroundColor: 'lightgrey',
+          padding: 60,
           borderRadius: 10,
           boxShadow: '5px 5px 8px #00000050',
-          backgroundColor: "whitesmoke"
         }}
       >
 
         <SimpleGrid cols={2}>
           <TextInput
             w={300}
-            variant='default'
+            variant='filled'
             label='Name'
             placeholder='John Doe'
             {...form.getInputProps('name')}
@@ -134,7 +151,7 @@ const PatientForm = () => {
           <NumberInput
             w={300}
             withAsterisk
-            variant='default'
+            variant='filled'
             label='Age'
             placeholder='22'
             {...form.getInputProps('age')}
@@ -145,7 +162,7 @@ const PatientForm = () => {
             w={300}
             withAsterisk
             label='Gender'
-            variant='default'
+            variant='filled'
             placeholder='Male'
             clearable
             data={[
@@ -153,67 +170,76 @@ const PatientForm = () => {
               { value: 'female', label: 'Female' },
               { value: 'others', label: 'Others' },
             ]}
-            {...form.getInputProps('gender')}
+            {...form.getInputProps('Gender')}
           />
           <TextInput
             w={300}
-            variant='default'
-            label='Email'
-            placeholder='example@gmail.com'
+            variant='filled'
+            label='email'
+            placeholder='example@gmail.ocm'
             {...form.getInputProps('email')}
-            withAsterisk
           />
         </SimpleGrid>
         <SimpleGrid cols={2}>
           <TextInput
             w={300}
-            variant='default'
-            label='State'
-            placeholder='West Bengal'
+            variant='filled'
+            label='state'
+            placeholder='state'
             {...form.getInputProps('state')}
           />
           <TextInput
             w={300}
-            variant='default'
-            label='City'
-            placeholder='Kolkata'
+            variant='filled'
+            label='city'
+            placeholder='city'
             {...form.getInputProps('city')}
           />
         </SimpleGrid>
         <SimpleGrid cols={2}>
           <TextInput
             w={300}
-            variant='default'
+            variant='filled'
             label='Address'
-            placeholder='Salt Lake'
+            placeholder='address'
             {...form.getInputProps('address')}
           />
           <TextInput
             w={300}
-            variant='default'
-            label='Pin'
-            minLength={6}
-            maxLength={6}
-            placeholder='700093'
+            variant='filled'
+            label='pin'
+            placeholder='pin'
             {...form.getInputProps('pin')}
           />
         </SimpleGrid>
         <SimpleGrid cols={2}>
-          <Textarea
-            placeholder="Fever, Headache"
-            label="Problems"
-            withAsterisk
+          <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
+          <textarea
             w={300}
+            variant='filled'
+            label='problem'
+            placeholder='cause, symptoms'
             {...form.getInputProps('problem')}
-          />
-          <FileInput label="Prescription" placeholder="X-Ray Report" accept="file/pdf"
-            {...form.getInputProps('file')}
+          ></textarea>
+          {/* <TextInput
             w={300}
-          />;
+            variant='filled'
+            label='document'
+            placeholder='add ocument'
+            {...form.getInputProps('symptoms')}
+          /> */}
+          <label w={300}
+            variant='filled'
+            class="text-black-900 text-sm"
+            label='document'>Document
+            <input w={300} label='document' class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple /></label>
+          {/* multiple files can be added */}
         </SimpleGrid>
 
-        <Button type='submit' mt={20}>
-          Register for Checkup </Button>
+
+
+        <Button type='submit' w={420} fullWidth mt={20} onClick={() => { navigate('/waitingpage') }} >
+          Register for checkup </Button>
       </form>
     </Paper>
   );

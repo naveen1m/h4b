@@ -1,119 +1,100 @@
 import { Button } from '@mantine/core';
 import axios from 'axios'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
-// const fetchdata = () => {
-//     const uri = 'https://dhruva-api.bhashini.gov.in/services/inference/pipeline'
-//     const userId = '9083a5240ddc473ba1e706b7df47c7a0';
-//     const ulcaApiKey = '25e21b8af7-4d7a-4d29-89d4-6d7a3e745e12';
-//     const AuthorizationToken = 'hACDedKF03_rRl6dRcmcipqfE5GxfJrIdflv7PppXdA7Bv4CLA5aDYP-rZfGY1mG'
 
-//     const sourcetext = 'hello i am compleing this project by today!'
-//     const payload = {
-//         "pipelineTasks": [
-//             {
-//                 "taskType": "translation",
-//                 "config": {
-//                     "language": {
-//                         "sourceLanguage": "en",
-//                         "targetLanguage": "hi"
-//                     },
-//                     "serviceId": "ai4bharat/indictrans-v2-all-gpu--t4"
-//                 }
-//             }
-//         ],
-//         "inputData": {
-//             "input": [
-//                 {
-//                     "source": "I am going to complete project "
-//                 }
-//             ]
-//         }
-//     }
-
-//     axios.post(uri,
-//         payload, {
-//         headers: {
-//             Authorization: AuthorizationToken,
-//             'Content-Type': 'application/json',
-//             'ulcaApiKey': ulcaApiKey,
-//             'userId': userId
-//         }
-//     })
-//         .then(function (res) {
-//             console.log('Response:', res.data.pipelineResponse[0].output[0].target);
-//         })
-//         .catch(function (error) {
-//             console.error('Error:', error);
-//         });
-
-// }
 // fetchdata();
 
-let SpeechRecognition =
-    window.speechRecognition || window.webkitSpeechRecognition;
-let recognition;
 
 const Translate2bn = () => {
+    const {
+        transcript,
+        listening,
+        resetTranscript,
+        browserSupportsSpeechRecognition,
+        browserSupportsContinuousListening
+    } = useSpeechRecognition();
 
-    const [recording, setRecording] = useState(false);
+    if (!browserSupportsSpeechRecognition) {
+        return <span>Browser doesn't support speech recognition.</span>;
+    }
+    if (browserSupportsContinuousListening) {
+        SpeechRecognition.startListening({ continuous: true })
+    } else {
+        console.log('error in listening')
+        // Fallback behaviour
+    }
 
-    function speechToText() {
-        try {
-            recognition = new SpeechRecognition();
-            recognition.lang = 'en'
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.start();
-            recognition.onresult = (event) => {
-                const speechResult = event.results[0][0].transcript;
-                if (event.results[0].isFinal) {
-                    console.log(speechResult);
-                } else {
-                    console.log(speechResult)
+    // using bhashini from here 
+    const fetchdata = (transcribe) => {
+        const uri = 'https://dhruva-api.bhashini.gov.in/services/inference/pipeline'
+        const userId = '9083a5240ddc473ba1e706b7df47c7a0';
+        const ulcaApiKey = '25e21b8af7-4d7a-4d29-89d4-6d7a3e745e12';
+        const AuthorizationToken = 'hACDedKF03_rRl6dRcmcipqfE5GxfJrIdflv7PppXdA7Bv4CLA5aDYP-rZfGY1mG'
+
+        const sourcetext = transcribe
+        const payload = {
+            "pipelineTasks": [
+                {
+                    "taskType": "translation",
+                    "config": {
+                        "language": {
+                            "sourceLanguage": "en",
+                            "targetLanguage": "hi"
+                        },
+                        "serviceId": "ai4bharat/indictrans-v2-all-gpu--t4"
+                    }
                 }
-            };
-            recognition.onspeechend = () => {
-                speechToText();
-            };
-            recognition.onerror = (event) => {
-                stopRecording();
-                if (event.error === "no-speech") {
-                    alert("No speech was detected. Stopping...");
-                } else if (event.error === "audio-capture") {
-                    alert(
-                        "No microphone was found. Ensure that a microphone is installed."
-                    );
-                } else if (event.error === "not-allowed") {
-                    alert("Permission to use microphone is blocked.");
-                } else if (event.error === "aborted") {
-                    alert("Listening Stopped.");
-                } else {
-                    alert("Error occurred in recognition: " + event.error);
-                }
-            };
-        } catch (error) {
-            setRecording(false);
-            console.log(error);
+            ],
+            "inputData": {
+                "input": [
+                    {
+                        "source": sourcetext
+                    }
+                ]
+            }
         }
+
+        axios.post(uri,
+            payload, {
+            headers: {
+                Authorization: AuthorizationToken,
+                'Content-Type': 'application/json',
+                'ulcaApiKey': ulcaApiKey,
+                'userId': userId
+            }
+        })
+            .then(function (res) {
+                console.log('Response:', res.data.pipelineResponse[0].output[0].target);
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
+
     }
 
-    function stopRecording() {
-        recognition.stop();
-        setRecording(false);
-    }
+    const [trans, setTrans] = useState("");
+    console.log(trans)
+    useEffect(() => {
+        fetchdata("translate")
+        console.log(trans)
+    }, [trans])
 
     return (
         <div>
-            <Button size='md' ml="40%" mt="10%" onClick={() => {
-                if (!recording) {
-                    speechToText();
-                    setRecording(true);
-                } else {
-                    stopRecording();
-                }
-            }
-            }>Record</Button>
+            <p>Microphone: {listening ? 'on' : 'off'}</p>
+            <button onClick={() => {
+                SpeechRecognition.startListening();
+
+            }}>Start</button>
+            <button onClick={SpeechRecognition.stopListening}>Stop</button>
+            <button onClick={resetTranscript}>Reset</button>
+            <p>{transcript}</p>
+            <p></p>
+            <p>------------------</p>
+            <p>{fetchdata(transcript)}</p>
+
 
         </div>
     )
