@@ -94,7 +94,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Hero = () => {
-
+  
   const { classes } = useStyles();
   const navigate = useNavigate();
 
