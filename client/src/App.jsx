@@ -4,11 +4,12 @@ import Home from "./pages/Home";
 import Room from "./pages/Room";
 import Hero from "./pages/Hero";
 import PatientForm from "./pages/PatientForm";
-import { Register } from "./pages/Register";
+import Register from "./pages/Register";
 import QueuePage from "./pages/QueuePage";
 import Meeting from "./pages/Meeting";
 
 const App = () => {
+
   return (
     <Routes>
       <Route path="/" element={<Hero />} />
@@ -17,7 +18,6 @@ const App = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/waitingpage" element={<QueuePage />} />
       <Route path="/meeting" element={<Meeting />} />
-
     </Routes>
   );
 
