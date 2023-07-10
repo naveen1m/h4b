@@ -46,7 +46,7 @@ router.post('/verify', async (req, res) => {
 
 
 router.post('/registration', fetchUserDetails, async (req, res) => {
-    const { email, name, age, problem, address, district, city, pin, state, gender } = req.body;
+    const { email, name, age, problem, address, district, city, pin, state, gender, meetingLink = 'google.com' } = req.body;
     const user = req.user;
 
     try {
@@ -54,7 +54,7 @@ router.post('/registration', fetchUserDetails, async (req, res) => {
         const doctor = (await authServices.searchDocWithShortestQueue())[0];
 
         // TODO: create meetingReport
-        let meetingReportBody = { email, name, age, problem, address, district, city, pin, state, gender, doctor: doctor._id, pastRecord: user.medicalHistory, meetingLink: 'google.com' }; // append doctorid after getting earliest available doc
+        let meetingReportBody = { email, name, age, problem, address, district, city, pin, state, gender, doctor: doctor._id, pastRecord: user.medicalHistory, meetingLink }; // append doctorid after getting earliest available doc
 
         let meetingReport = await authServices.createMeetingReport(meetingReportBody);
 
@@ -69,6 +69,27 @@ router.post('/registration', fetchUserDetails, async (req, res) => {
         let x = 10 * i;
 
         return res.json(response(true, { time: updatedDoctorQueue * 10, meetingReport: meetingReport }));
+    } catch (error) {
+        console.log(error);
+        return res.json(response(false, { error }));
+    }
+});
+
+
+router.post('/submit', async (req, res) => {
+    const { meeting_id } = req.body;
+
+    try {
+        const meetingDetails = await authServices.getMeetingDetails(meeting_id);
+
+        // makes doctor free
+        await authServices.removeMeetingFromDoc(meetingDetails.doctor);
+        const prescription = await authServices.createPrescription(meetingDetails.email, {});
+
+        // append Prescription ID to User
+        await authServices.appendPrescriptionToUser(meetingDetails.email, prescription._id);
+
+        return res.json(response(true));
     } catch (error) {
         console.log(error);
         return res.json(response(false, { error }));

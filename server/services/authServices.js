@@ -1,5 +1,6 @@
 const Doctor = require('../model/Doctor');
 const MeetingReport = require('../model/MeetingReport');
+const MedicalPrescription = require('../model/MedicalPrescription');
 const OTP = require('../model/OTP');
 const User = require('../model/User');
 
@@ -39,9 +40,17 @@ const createUser = async (email) => {
     return await User.create({ email: email });
 }
 
+const appendPrescriptionToUser = async (email, prescription_id) => {
+    await User.findOneAndUpdate({ email: email }, { $push: { medicalHistory: prescription_id } });
+}
+
 // col-meetingReport
 const createMeetingReport = async (body) => {
     return await MeetingReport.create(body);
+}
+
+const getMeetingDetails = async (meeting_id) => {
+    return await MeetingReport.findById(meeting_id);
 }
 
 // col-Doc
@@ -74,4 +83,14 @@ const appendMeetingToDoc = async (doctor_id, meeting_id) => {
     return data.queue.length - 1;
 }
 
-module.exports = { sendOTP, verifyOTP, createDoctor, searchDocWithShortestQueue, getUser, createMeetingReport, appendMeetingToDoc };
+const removeMeetingFromDoc = async (doctor_id) => {
+    const data = await Doctor.findByIdAndUpdate(doctor_id, { $pop: { queue: -1 } });
+}
+
+// Col-Prescription
+const createPrescription = async (email, body) => {
+    const prescription = await MedicalPrescription.create({ email: email }, body);
+    return prescription;
+}
+
+module.exports = { sendOTP, verifyOTP, createDoctor, searchDocWithShortestQueue, getUser, appendPrescriptionToUser, createMeetingReport, getMeetingDetails, appendMeetingToDoc, removeMeetingFromDoc, createPrescription };
