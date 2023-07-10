@@ -2,51 +2,45 @@ import {
   Paper,
   createStyles,
   TextInput,
+  PasswordInput,
+  Checkbox,
   Button,
-  rem,
-  Group,
   Title,
+  Text,
+  Anchor,
+  rem,
 } from '@mantine/core';
+<<<<<<< HEAD
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+=======
+import { useNavigate } from 'react-router-dom';
+>>>>>>> a87e5b29ae5232ce8996213ba916f3994600fe6f
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
     height: "100vh",
     width: "100%",
     //   minHeight: rem(900),
-    backgroundSize: 'cover',
+    backgroundSize: 'cover  ',
     backgroundRepeat: "no-repeat",
     backgroundImage:
-      "url(https://media.istockphoto.com/id/1137422797/vector/doctors-examining-a-patient-using-a-medical-app.jpg?s=612x612&w=0&k=20&c=r4vdnCDv4AOdaKDZ_UeFAbqZg9fkY9olv6UzRWZO_Ng=)",
-    backgroundPosition: "center"
+      // 'url(https://images.unsplash.com/photo-1583912268183-a34d41fe464a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIwfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60)'
+      'url(https://images.unsplash.com/photo-1639772823849-6efbd173043c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MnxtQjU0cDdkVEJROHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60)',
+    backgroundPosition: "right"
   },
 
   form: {
     borderRight: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
       }`,
-    minWidth: "50%",
     minHeight: "100vh",
-    display: 'flex',
-    justifyContent: "center",
-    alignItems: "center",
-    maxWidth: rem(500),
+    maxWidth: rem(450),
     paddingTop: rem(80),
 
     [theme.fn.smallerThan('sm')]: {
       maxWidth: '100%',
     },
-  },
-
-  innerForm: {
-    width: 500,
-    height: 500,
-    border: "1px solid black",
-    borderRadius: 10,
-    display: 'flex',
-    justifyContent: "center",
-    alignItems: "center",
   },
 
   title: {
@@ -55,8 +49,9 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Register = () => {
+export function Register() {
   const { classes } = useStyles();
+<<<<<<< HEAD
   const [token, setToken] = useState("");
   const navigate = useNavigate();
 
@@ -140,13 +135,32 @@ const Register = () => {
               }
               form.reset();
             }}>
+=======
+  const navigate = useNavigate();
+  return (
+    <div className={classes.wrapper}>
+      <Paper className={classes.form} radius={0} p={30} >
+        {/* <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
+            Welcome back to Mantine!
+          </Title> */}
+
+        <TextInput mt="50%" label="Phone Number" placeholder="+91834567899" size="md" />
+        <TextInput label="OTP" placeholder="Sent OTP" mt="md" size="md" />
+        {/* <Checkbox label="Keep me logged in" mt="xl" size="md" /> */}
+        <Button fullWidth mt="xl" size="md" onClick={() => {
+          navigate("/patientregister");
+        }} >
+          Register
+        </Button>
+
+        {/* <Text ta="center" mt="md">
+            Don&apos;t have an account?{' '}
+            <Anchor href="#" weight={700} onClick={(event) => event.preventDefault()}>
+>>>>>>> a87e5b29ae5232ce8996213ba916f3994600fe6f
               Register
-            </Button>
-          </form>
-        </div>
+            </Anchor>
+          </Text> */}
       </Paper>
     </div>
   );
 }
-
-export default Register;
