@@ -1,3 +1,5 @@
+const Doctor = require('../model/Doctor');
+const MeetingReport = require('../model/MeetingReport');
 const OTP = require('../model/OTP');
 const User = require('../model/User');
 
@@ -6,6 +8,7 @@ const sendOTP = async (email) => {
     let token = require('../utils/createToken');
     let otp = require('../utils/createOTP');
 
+    // TODO: send mail
     await OTP.create({ email: email, otp: otp, token: token });
     return token;
 }
@@ -29,12 +32,42 @@ const isUserExisting = async (email) => {
     return await User.findOne({ email: email }) != null ? true : false;
 }
 
+const getUser = async (email) => {
+    return await User.findOne({ email: email });
+}
+
 const createUser = async (email) => {
     return await User.create({ email: email });
 }
 
-// const createUser = async (email) => {
-//     return await User.create({ email: email });
-// }
+// col-meetingReport
+const createMeetingReport = async (body) => {
+    return await MeetingReport.create(body);
+}
 
-module.exports = { sendOTP, verifyOTP };
+// col-Doc
+const searchDocWithShortestQueue = async () => {
+    const data = await Doctor.aggregate([{
+        $addFields: {
+            size: {
+                $size: "$queue"
+            }
+        }
+    },
+    {
+        $sort: {
+            size: 1
+        }
+    },
+    {
+        $limit: 1
+    }]);
+    return data;
+}
+
+const appendMeetingToDoc = async (doctor_id, meeting_id) => {
+    const data = await Doctor.findByIdAndUpdate(doctor_id, { $push: { queue: meeting_id } });
+    return data.queue.length - 1;
+}
+
+module.exports = { sendOTP, verifyOTP, searchDocWithShortestQueue, getUser, createMeetingReport, appendMeetingToDoc };
