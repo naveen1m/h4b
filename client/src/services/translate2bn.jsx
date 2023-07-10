@@ -50,26 +50,29 @@ import { useState } from 'react';
 // }
 // fetchdata();
 
+let SpeechRecognition =
+    window.speechRecognition || window.webkitSpeechRecognition;
+let recognition;
 
 const Translate2bn = () => {
 
-    let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-
     const [recording, setRecording] = useState(false);
 
-    const speechToText = () => {
-        setRecording(true);
+    function speechToText() {
         try {
-            recognition.lang = "en-US";
-            recognition.continuous = true;
-            recognition.interimResults = true;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'en'
+            recognition.continuous = false;
+            recognition.interimResults = false;
             recognition.start();
             recognition.onresult = (event) => {
                 const speechResult = event.results[0][0].transcript;
-                console.log(speechResult);
-            }
-
+                if (event.results[0].isFinal) {
+                    console.log(speechResult);
+                } else {
+                    console.log(speechResult)
+                }
+            };
             recognition.onspeechend = () => {
                 speechToText();
             };
@@ -94,7 +97,8 @@ const Translate2bn = () => {
             console.log(error);
         }
     }
-    const stopRecording = () => {
+
+    function stopRecording() {
         recognition.stop();
         setRecording(false);
     }
