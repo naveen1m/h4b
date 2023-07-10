@@ -51,7 +51,7 @@ router.post('/registration', fetchUserDetails, async (req, res) => {
     try {
         // TODO: sort all doctors ascending order of queue no.
         const doctor = (await authServices.searchDocWithShortestQueue())[0];
-        
+
         // TODO: create meetingReport
         let meetingReportBody = { email, name, age, problem, address, district, city, pin, state, gender, doctor: doctor._id, pastRecord: user.medicalHistory, meetingLink: 'google.com' }; // append doctorid after getting earliest available doc
 
@@ -67,10 +67,10 @@ router.post('/registration', fetchUserDetails, async (req, res) => {
         // x=no of mins * i
         let x = 10 * i;
 
-        return res.json(response(true, { time: updatedDoctor * 10 }));
+        return res.json(response(true, { time: updatedDoctor * 10, meetingReport: meetingReport }));
     } catch (error) {
         console.log(error);
-        return res.json(response(false, {error}));
+        return res.json(response(false, { error }));
     }
 });
 
