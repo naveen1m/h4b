@@ -10,13 +10,9 @@ import {
   Anchor,
   rem,
 } from '@mantine/core';
-<<<<<<< HEAD
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-=======
-import { useNavigate } from 'react-router-dom';
->>>>>>> a87e5b29ae5232ce8996213ba916f3994600fe6f
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -51,7 +47,6 @@ const useStyles = createStyles((theme) => ({
 
 export function Register() {
   const { classes } = useStyles();
-<<<<<<< HEAD
   const [token, setToken] = useState("");
   const navigate = useNavigate();
 
@@ -135,32 +130,12 @@ export function Register() {
               }
               form.reset();
             }}>
-=======
-  const navigate = useNavigate();
-  return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={30} >
-        {/* <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
-            Welcome back to Mantine!
-          </Title> */}
-
-        <TextInput mt="50%" label="Phone Number" placeholder="+91834567899" size="md" />
-        <TextInput label="OTP" placeholder="Sent OTP" mt="md" size="md" />
-        {/* <Checkbox label="Keep me logged in" mt="xl" size="md" /> */}
-        <Button fullWidth mt="xl" size="md" onClick={() => {
-          navigate("/patientregister");
-        }} >
-          Register
-        </Button>
-
-        {/* <Text ta="center" mt="md">
-            Don&apos;t have an account?{' '}
-            <Anchor href="#" weight={700} onClick={(event) => event.preventDefault()}>
->>>>>>> a87e5b29ae5232ce8996213ba916f3994600fe6f
               Register
-            </Anchor>
-          </Text> */}
+            </Button>
+          </form>
+        </div>
       </Paper>
     </div>
   );
+
 }
