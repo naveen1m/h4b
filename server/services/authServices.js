@@ -45,6 +45,11 @@ const createMeetingReport = async (body) => {
 }
 
 // col-Doc
+const createDoctor = async (email) => {
+    const data = await Doctor.create({ email: email });
+    return data;
+}
+
 const searchDocWithShortestQueue = async () => {
     const data = await Doctor.aggregate([{
         $addFields: {
@@ -65,8 +70,8 @@ const searchDocWithShortestQueue = async () => {
 }
 
 const appendMeetingToDoc = async (doctor_id, meeting_id) => {
-    const data = await Doctor.findByIdAndUpdate(doctor_id, { $push: { queue: meeting_id } });
+    const data = await Doctor.findByIdAndUpdate(doctor_id, { $push: { queue: meeting_id } }, { new: true });
     return data.queue.length - 1;
 }
 
-module.exports = { sendOTP, verifyOTP, searchDocWithShortestQueue, getUser, createMeetingReport, appendMeetingToDoc };
+module.exports = { sendOTP, verifyOTP, createDoctor, searchDocWithShortestQueue, getUser, createMeetingReport, appendMeetingToDoc };

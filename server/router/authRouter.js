@@ -5,6 +5,20 @@ const authServices = require('../services/authServices')
 const router = require('express').Router();
 const fetchUserDetails = require('../middlewares/fetchUserDetails');
 
+router.post('/doctor', async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const doctor = await authServices.createDoctor(email);
+
+        return res.json(response(true, { email: doctor.email }));
+    }
+    catch (err) {
+        console.log(err);
+        return res.json(response(false, err));
+    }
+});
+
 router.post('/otpSend', async (req, res) => {
     const { email } = req.body;
 
@@ -36,10 +50,11 @@ router.post('/registration', fetchUserDetails, async (req, res) => {
 
     try {
         // TODO: sort all doctors ascending order of queue no.
-        const doctor = await authServices.searchDocWithShortestQueue();
-
+        const doctor = (await authServices.searchDocWithShortestQueue())[0];
+        
         // TODO: create meetingReport
         let meetingReportBody = { email, name, age, problem, address, district, city, pin, state, gender, doctor: doctor._id, pastRecord: user.medicalHistory, meetingLink: 'google.com' }; // append doctorid after getting earliest available doc
+
         let meetingReport = await authServices.createMeetingReport(meetingReportBody);
 
         let updatedDoctor = await authServices.appendMeetingToDoc(doctor._id, meetingReport._id);
@@ -54,7 +69,8 @@ router.post('/registration', fetchUserDetails, async (req, res) => {
 
         return res.json(response(true, { time: updatedDoctor * 10 }));
     } catch (error) {
-        return res.json(response(false, error));
+        console.log(error);
+        return res.json(response(false, {error}));
     }
 });
 
