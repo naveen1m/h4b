@@ -1,6 +1,6 @@
+import '@babel/polyfill';
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import '@babel/polyfill';
 import App from './App.jsx'
 import { MantineProvider } from '@mantine/core';
 import { BrowserRouter } from "react-router-dom"

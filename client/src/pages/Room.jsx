@@ -5,13 +5,13 @@ import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 
 const Room = () => {
 
-  const { name, email } = useLocation().state;
+  const { name } = useLocation().state;
   const { roomID } = useParams();
 
   const meeting = async (elem) => {
     const appID = +import.meta.env.VITE_ZEGOCLOUD_APP_ID;
     const serverSecret = import.meta.env.VITE_ZEGOCLOUD_SERVER_SECRET;
-    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, Date.now().toString(), name);
+    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, Date.now().toString(), name || "User");
     const zc = ZegoUIKitPrebuilt.create(kitToken);
 
     zc.joinRoom({

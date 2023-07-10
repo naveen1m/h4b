@@ -8,7 +8,6 @@ import { Register } from "./pages/Register";
 import QueuePage from "./pages/QueuePage";
 import Meeting from "./pages/Meeting";
 import Translate2bn from "./services/translate2bn";
-import Dictaphone from "./services/Dictaphone";
 
 const App = () => {
   return (
