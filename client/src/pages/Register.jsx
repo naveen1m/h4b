@@ -23,16 +23,6 @@ const useStyles = createStyles((theme) => ({
   },
 
   form: {
-    borderRight: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3],
-    backgroundSize: 'cover ',
-    backgroundRepeat: "no-repeat",
-    backgroundImage:
-      // 'url(https://images.unsplash.com/photo-1583912268183-a34d41fe464a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIwfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60)'
-      'url(https://images.unsplash.com/photo-1639772823849-6efbd173043c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MnxtQjU0cDdkVEJROHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60)',
-    backgroundPosition: "right"
-  },
-
-  form: {
     borderRight: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
       }`,
     minWidth: "50%",
