@@ -1,6 +1,7 @@
 import { createStyles, Container, Title, Text, Button, rem } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-
+// baseurl: http://192.168.89.186:3000/
+// localhost: http://localhost:3000
 const useStyles = createStyles((theme) => ({
   root: {
     width: "100%",
@@ -94,7 +95,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Hero = () => {
-  
+
   const { classes } = useStyles();
   const navigate = useNavigate();
 

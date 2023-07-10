@@ -16,6 +16,6 @@ app.use('/auth', authRouter)
 
 connect().then(() => {
     app.listen(PORT, () => {
-        console.log('server started');
+        console.log(`server started at http://localhost:${PORT}`);
     });
 });

@@ -85,7 +85,7 @@ const Translate2bn = () => {
         <div>
             <p>Microphone: {listening ? 'on' : 'off'}</p>
             <button onClick={() => {
-                SpeechRecognition.startListening();
+                SpeechRecognition.startListening();   // will have to start at meeting
 
             }}>Start</button>
             <button onClick={SpeechRecognition.stopListening}>Stop</button>
