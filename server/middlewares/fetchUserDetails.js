@@ -1,16 +1,16 @@
 const response = require("../utils/response");
-
-module.exports = async (req, res) => {
+const authServices = require('../services/authServices');
+module.exports = async (req, res, next) => {
     try {
-        // TODO: fetch user from db
+        const user = await authServices.getUser(req.body.email);
 
-        // if (user) {
-        // req.user=user;
-        next();
-        // }
-        // else throw 'User not found';
+        if (user) {
+            req.user = user;
+            return next();
+        }
+        else throw new Error('User not found');
     }
     catch (err) {
-        return res.json(response(false, err));
+        return res.status(400).json(response(false, err));
     }
 }
