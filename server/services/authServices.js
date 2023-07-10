@@ -55,7 +55,7 @@ const getMeetingDetails = async (meeting_id) => {
 
 // col-Doc
 const createDoctor = async (email) => {
-    await Doctor.create({ email });
+    return await Doctor.create({ email: email });
 }
 
 const searchDocWithShortestQueue = async () => {
@@ -79,7 +79,7 @@ const searchDocWithShortestQueue = async () => {
 
 const appendMeetingToDoc = async (doctor_id, meeting_id) => {
     const data = await Doctor.findByIdAndUpdate(doctor_id, { $push: { queue: meeting_id } });
-    return data.queue.length - 1;
+    return data.queue.length;
 }
 
 const removeMeetingFromDoc = async (doctor_id) => {
@@ -88,7 +88,7 @@ const removeMeetingFromDoc = async (doctor_id) => {
 
 // Col-Prescription
 const createPrescription = async (email, body) => {
-    const prescription = await MedicalPrescription.create({ email: email }, body);
+    const prescription = await MedicalPrescription.create({ email: email, ...body });
     return prescription;
 }
 
