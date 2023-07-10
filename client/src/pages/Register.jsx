@@ -9,6 +9,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -57,6 +58,7 @@ const useStyles = createStyles((theme) => ({
 const Register = () => {
   const { classes } = useStyles();
   const [token, setToken] = useState("");
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -78,10 +80,11 @@ const Register = () => {
           <form>
             <Title order={2} my={10} underline>Patient Registration Form</Title>
             <Group>
-              <TextInput label="Email" placeholder="me@mail.com" size="md" type='number' value={form.values.email} onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+              <TextInput label="Email" placeholder="me@mail.com" size="md" type='email' value={form.values.email} onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
                 className='h-20'
+                withAsterisk
               />
-              <Button radius="md" size="md" style={{ marginTop: 10 }}
+              <Button radius="md" size="md" style={{ marginTop: 14 }}
                 onClick={async () => {
                   try {
                     console.log("Btn clicked")
@@ -89,7 +92,10 @@ const Register = () => {
                       method: "POST",
                       body: JSON.stringify({
                         email: form.values.email
-                      })
+                      }),
+                      headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                      }
                     });
                     if (!res.ok) {
                       throw new Error("Network Error");
@@ -107,6 +113,7 @@ const Register = () => {
 
             <TextInput label="OTP" placeholder="Sent OTP" mt="md" size="md"
               value={form.values.otp} onChange={(event) => form.setFieldValue('otp', event.currentTarget.value)}
+              withAsterisk
             />
             <Button fullWidth mt="xl" size="md" onClick={async () => {
               const res = await fetch("http://localhost:3000/auth/verify", {
@@ -114,7 +121,10 @@ const Register = () => {
                 body: JSON.stringify({
                   token: token,
                   otp: form.values.otp
-                })
+                }),
+                headers: {
+                  'Content-type': 'application/json; charset=UTF-8',
+                }
               })
               if (!res.ok) {
                 throw new Error("Network Error");
@@ -123,11 +133,10 @@ const Register = () => {
               if (resJSON.success) {
                 localStorage.setItem("tokenTeleMed", token)
                 console.log("Login Successfull");
-                alert("Login Successful");
+                navigate("/patientregister")
               }
               else {
                 console.log("Login Unsuccessfull");
-                alert("Login Unsuccessful");
               }
               form.reset();
             }}>
