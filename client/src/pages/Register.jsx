@@ -5,6 +5,7 @@ import {
   Button,
   rem,
   Group,
+  Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
@@ -14,7 +15,16 @@ const useStyles = createStyles((theme) => ({
     height: "100vh",
     width: "100%",
     //   minHeight: rem(900),
-    backgroundSize: 'cover  ',
+    backgroundSize: 'cover',
+    backgroundRepeat: "no-repeat",
+    backgroundImage:
+      "url(https://media.istockphoto.com/id/1137422797/vector/doctors-examining-a-patient-using-a-medical-app.jpg?s=612x612&w=0&k=20&c=r4vdnCDv4AOdaKDZ_UeFAbqZg9fkY9olv6UzRWZO_Ng=)",
+    backgroundPosition: "center"
+  },
+
+  form: {
+    borderRight: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3],
+    backgroundSize: 'cover ',
     backgroundRepeat: "no-repeat",
     backgroundImage:
       // 'url(https://images.unsplash.com/photo-1583912268183-a34d41fe464a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIwfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60)'
@@ -30,7 +40,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     justifyContent: "center",
     alignItems: "center",
-    maxWidth: rem(450),
+    maxWidth: rem(500),
     paddingTop: rem(80),
 
     [theme.fn.smallerThan('sm')]: {
@@ -39,11 +49,10 @@ const useStyles = createStyles((theme) => ({
   },
 
   innerForm: {
-    width: 400,
+    width: 500,
     height: 500,
     border: "1px solid black",
     borderRadius: 10,
-    padding: 10,
     display: 'flex',
     justifyContent: "center",
     alignItems: "center",
@@ -77,14 +86,12 @@ const Register = () => {
       <Paper className={classes.form} radius={0} p={30} >
         <div className={classes.innerForm}>
           <form>
-            <Group className='flex justify-center items-center h-40'>
-              <TextInput label="Email" placeholder="me@mail.com" size="md" type='number' min={10} max={10} value={form.values.email} onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+            <Title order={2} my={10} underline>Patient Registration Form</Title>
+            <Group>
+              <TextInput label="Email" placeholder="me@mail.com" size="md" type='number' value={form.values.email} onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
                 className='h-20'
               />
-
-              <Button radius="md" size="lg"
-                className='h-10'
-
+              <Button radius="md" size="md" style={{ marginTop: 10 }}
                 onClick={async () => {
                   try {
                     console.log("Btn clicked")
@@ -107,6 +114,7 @@ const Register = () => {
                 }}>
                 Send OTP</Button>
             </Group>
+
             <TextInput label="OTP" placeholder="Sent OTP" mt="md" size="md"
               value={form.values.otp} onChange={(event) => form.setFieldValue('otp', event.currentTarget.value)}
             />
