@@ -13,15 +13,17 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const PatientForm = () => {
+  const navigate = useNavigate();
   const form = useForm({
     initialValues: {
       name: '',
       age: '',
       gender: '',
-      email:'',
+      email: '',
       state: '',
       district: '',
       city: '',
@@ -81,20 +83,20 @@ const PatientForm = () => {
             address,
             pin,
             problem,
-            
+
           } = form.values;
           const requestDataBody = {
-            name:name,
+            name: name,
             Age: Number(age),
             Gender: Gender,
-            email:email,
+            email: email,
             state: state,
             district: district,
             city: city,
             address: address,
             pin: pin,
-            problem:problem,
-            
+            problem: problem,
+
           };
           // console.log(requestDataBody)
 
@@ -114,17 +116,17 @@ const PatientForm = () => {
           // }
           const url = 'http://127.0.0.1:8000/hai_prediction'
           try {
-            axios.post(url, requestDataBody, {mode: 'no-cors' }, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }).then((response) => {
+            axios.post(url, requestDataBody, { mode: 'no-cors' }, {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then((response) => {
               console.log(response.data);
             });
           } catch (e) {
             console.log(e);
           }
-         
+
         }}
         style={{
           display: 'flex',
@@ -211,7 +213,7 @@ const PatientForm = () => {
           />
         </SimpleGrid>
         <SimpleGrid cols={2}>
-        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
+          <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
           <textarea
             w={300}
             variant='filled'
@@ -230,13 +232,13 @@ const PatientForm = () => {
             variant='filled'
             class="text-black-900 text-sm"
             label='document'>Document
-          <input  w={300} label='document'  class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple /></label>
-        {/* multiple files can be added */}
+            <input w={300} label='document' class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple /></label>
+          {/* multiple files can be added */}
         </SimpleGrid>
- 
 
-        
-        <Button type='submit' w={420} fullWidth mt={20}>
+
+
+        <Button type='submit' w={420} fullWidth mt={20} onClick={() => { navigate('/waitingpage') }} >
           Register for checkup </Button>
       </form>
     </Paper>
